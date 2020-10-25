@@ -1,1 +1,3 @@
-# movie-factory-service
+# movie-factory-service #
+
+Microservice that generates movie feeds.
