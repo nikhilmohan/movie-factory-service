@@ -1,0 +1,26 @@
+
+spring:
+  profiles:
+    active: dev
+
+searchSize: 3
+ratingBenchmark: 6.5
+---
+spring:
+  profiles: dev
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: hourglass
+omdb:
+  uri: http://www.omdbapi.com/
+---
+spring:
+  profile: prod
+  data:
+    mongodb:
+      host: localhost
+      port: 27018
+      database: hourglass
+
