@@ -10,8 +10,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Sort;
+import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
+
+import java.util.Arrays;
+import java.util.List;
 
 @SpringBootApplication
 @Slf4j
@@ -20,9 +25,6 @@ public class MovieFactoryApplication implements CommandLineRunner
 	@Autowired
 	MovieFactoryService movieFactoryService;
 
-	@Autowired
-	MovieKeywordRepository movieKeywordRepository;
-
 	@Value("${searchSize}")
 	private int searchSize;
 
@@ -30,21 +32,14 @@ public class MovieFactoryApplication implements CommandLineRunner
 		SpringApplication.run(MovieFactoryApplication.class, args);
 	}
 
+
 	@Override
 	public void run(String... args) throws Exception {
-		log.info("Starting...");
-		Flux<MovieKeyword> movieKeywordFlux = movieKeywordRepository.findAll(Sort.by(Sort.Direction.ASC,
-				"lastPageAccessed")).take(searchSize);
+		movieFactoryService.generateMovieFeeds(searchSize).blockLast();
+	}
 
-		movieKeywordFlux.flatMap(movieKeyword -> {
-			log.info("Accessed keyWord " + movieKeyword.getKeyword());
-			movieFactoryService.generateMovieFeedsFromKeyword(movieKeyword.getKeyword(),
-					movieKeyword.getLastPageAccessed() + 1);
-
-			MovieKeyword updatedMovieKeyword = new MovieKeyword(movieKeyword.getId(),
-					movieKeyword.getKeyword(), movieKeyword.getLastPageAccessed() + 1);
-			return movieKeywordRepository.save(updatedMovieKeyword);
-		}).subscribe();
-
+	@Bean
+	WebClient webClient()	{
+		return WebClient.create();
 	}
 }
