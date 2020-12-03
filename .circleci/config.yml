@@ -47,6 +47,7 @@ jobs: # a collection of steps
             docker build -t nikmohan81/$IMAGE_NAME:$TAG -t nikmohan81/$IMAGE_NAME:latest .
             docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
             docker push nikmohan81/$IMAGE_NAME:$TAG
+            docker push nikmohan81/$IMAGE_NAME:latest
 orbs:
   sonarcloud: sonarsource/sonarcloud@1.0.0
 workflows:
