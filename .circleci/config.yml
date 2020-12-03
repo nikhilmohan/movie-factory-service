@@ -5,7 +5,7 @@ jobs: # a collection of steps
     working_directory: ~/circleci-movie-factory-service # directory where steps will run
 
     docker: # run the steps with Docker
-      - image: circleci/openjdk:11-stretch # ...with this image as the primary container; this is where all `steps` will run
+      - image: circleci/buildpack-deps:stretch # ...with this image as the primary container; this is where all `steps` will run
 
     steps: # a collection of executable commands
 
@@ -34,6 +34,19 @@ jobs: # a collection of steps
           # Upload test summary for display in Artifacts: https://circleci.com/docs/2.0/artifacts/
           path: target/movie-factory-0.0.1-SNAPSHOT.jar
       # See https://circleci.com/docs/2.0/deployment-integrations/ for deploy examples
+      - run:
+          name: Setup environment variables
+          command: |
+            echo 'export TAG=0.1.${CIRCLE_BUILD_NUM}' >> $BASH_ENV
+            echo 'export IMAGE_NAME=movie-factory' >> $BASH_ENV
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run:
+          name: Build and push Docker image
+          command: |
+            docker build -t nikmohan81/$IMAGE_NAME:$TAG .
+            docker login -u $DOCKER_USER $DOCKER_PASS
+            docker push nikmohan81/$IMAGE_NAME:$TAG
 orbs:
   sonarcloud: sonarsource/sonarcloud@1.0.0
 workflows:
