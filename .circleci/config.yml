@@ -47,7 +47,7 @@ jobs: # a collection of steps
             echo $DOCKER_USER
             echo $DOCKER_PASS
             docker build -t nikmohan81/$IMAGE_NAME:$TAG .
-            docker login -u $DOCKER_USER $DOCKER_PASS
+            docker login -u "$DOCKER_USER" "$DOCKER_PASS"
             docker push nikmohan81/$IMAGE_NAME:$TAG
 orbs:
   sonarcloud: sonarsource/sonarcloud@1.0.0
