@@ -95,7 +95,7 @@ public class MovieFactoryService {
 
     }
     public Flux<MovieKeyword> generateMovieFeeds(int searchSize)	{
-        log.info("STARTING..." + searchSize);
+        log.info("SIZE..." + searchSize);
         Flux<MovieKeyword> movieKeywordFlux = movieKeywordRepository.findAll(Sort.by(Sort.Direction.ASC,
                 "lastPageAccessed")).take(searchSize);
 
