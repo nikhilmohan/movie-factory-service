@@ -20,7 +20,7 @@ import reactor.core.publisher.Mono;
 @Service
 @Slf4j
 @Configuration
-@PropertySource("classpath:.env")
+@PropertySource(value = "classpath:.env", ignoreResourceNotFound = true)
 public class MovieFactoryService {
 
     @Autowired
@@ -55,6 +55,7 @@ public class MovieFactoryService {
 
     private Mono<MovieKeyword> generateMovieFeedsFromKeyword(MovieKeyword movieKeyword)   {
         log.info("Benchmark " + benchmarkRating) ;
+        log.info("apikey " + apiKey);
         int page = movieKeyword.getLastPageAccessed() + 1;
         Mono<MovieSearchResult> searchResultMono =
                 webClient.get().uri(omdbUri + "?s="+ movieKeyword.getKeyword() +"&apikey="
