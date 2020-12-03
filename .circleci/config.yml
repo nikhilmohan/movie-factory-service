@@ -44,9 +44,8 @@ jobs: # a collection of steps
       - run:
           name: Build and push Docker image
           command: |
-            docker build -t nikmohan81/$IMAGE_NAME:$TAG .
+            docker build -t nikmohan81/$IMAGE_NAME:$TAG -t nikmohan81/$IMAGE_NAME:latest .
             docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-            docker push nikmohan81/$IMAGE_NAME:latest
             docker push nikmohan81/$IMAGE_NAME:$TAG
 orbs:
   sonarcloud: sonarsource/sonarcloud@1.0.0
