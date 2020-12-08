@@ -35,6 +35,11 @@ public class MovieFactoryApplication implements CommandLineRunner
 
 	@Override
 	public void run(String... args) throws Exception {
+		String response = WebClient.create().get()
+				.uri("http://gateway-service:9900/userservice/user/fallback")
+				.retrieve()
+				.bodyToMono(String.class).block();
+		log.info("Response:: " + response);
 		movieFactoryService.generateMovieFeeds(searchSize).blockLast();
 	}
 
