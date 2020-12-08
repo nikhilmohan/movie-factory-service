@@ -14,10 +14,15 @@ spec:
     spec:
       containers:
         - name: movie-factory-service
-          image: nikmohan81/movie-factory-service:latest
+          image: nikmohan81/movie-factory:latest
           env:
             - name: SPRING_PROFILES_ACTIVE
               value: prod
+            - name: OMDB_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: apikey-secret
+                  key: omdbi-apikey
 
 ---
 
