@@ -37,7 +37,7 @@ public class MovieFactoryService {
         this.benchmarkRating = benchmarkRating;
     }
 
-    @Value("${apiKey}")
+    @Value("${omdb.apiKey}")
     public void setApiKey(String apiKey)    {
         this.apiKey = apiKey;
     }
