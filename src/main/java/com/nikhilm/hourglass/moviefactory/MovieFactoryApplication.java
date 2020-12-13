@@ -1,8 +1,6 @@
 package com.nikhilm.hourglass.moviefactory;
 
-import com.nikhilm.hourglass.moviefactory.models.Movie;
-import com.nikhilm.hourglass.moviefactory.models.MovieKeyword;
-import com.nikhilm.hourglass.moviefactory.repositories.MovieKeywordRepository;
+
 import com.nikhilm.hourglass.moviefactory.services.MovieFactoryService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +11,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Flux;
-
-import java.util.Arrays;
-import java.util.List;
 
 @SpringBootApplication
 @Slf4j
@@ -35,11 +29,7 @@ public class MovieFactoryApplication implements CommandLineRunner
 
 	@Override
 	public void run(String... args) throws Exception {
-		String response = WebClient.create().get()
-				.uri("http://gateway-service:9900/userservice/user/fallback")
-				.retrieve()
-				.bodyToMono(String.class).block();
-		log.info("Response:: " + response);
+
 		movieFactoryService.generateMovieFeeds(searchSize).blockLast();
 	}
 

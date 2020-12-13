@@ -18,7 +18,7 @@ spec:
           env:
             - name: SPRING_PROFILES_ACTIVE
               value: prod
-            - name: OMDB_API_KEY
+            - name: HG_OMDB_API_KEY
               valueFrom:
                 secretKeyRef:
                   name: apikey-secret
